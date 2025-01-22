@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Collections in Java: Making Our Pet Shop Scalable!</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 1rem;
+      }
+      h1,
+      h2,
+      h3 {
+        color: #2c3e50;
+        margin-top: 2rem;
+      }
+      pre {
+        background: #f8f9fa;
+        border-radius: 4px;
+        padding: 1rem;
+        overflow-x: auto;
+        border: 1px solid #e9ecef;
+        width: calc(100% - 2rem);
+      }
+      .keyword {
+        color: #0033b3;
+      }
+      .string {
+        color: #067d17;
+      }
+      .comment {
+        color: #8c8c8c;
+      }
+      .number {
+        color: #1750eb;
+      }
+      .type {
+        color: #000080;
+      }
+      .tip {
+        background: #e3f2fd;
+        padding: 1rem;
+        border-radius: 4px;
+        margin: 1rem 0;
+      }
+      .warning {
+        background: #fff3e0;
+        padding: 1rem;
+        border-radius: 4px;
+        margin: 1rem 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Welcome to Collections! Let's Scale Up Our Pet Shop 🏪</h1>
+
+    <p>Our pet shop is growing! 🎉 But wait... look at our current Main class. How are we handling multiple pets?</p>
+
+    <pre><span class="keyword">public static void</span> main(String[] args) {
+    Dog buddy = <span class="keyword">new</span> Dog(<span class="string">"Buddy"</span>, <span class="number">3</span>);
+    Cat whiskers = <span class="keyword">new</span> Cat(<span class="string">"Whiskers"</span>, <span class="number">5</span>);
+    Fish nemo = <span class="keyword">new</span> Fish(<span class="string">"Nemo"</span>, <span class="number">1</span>, WaterType.SALTWATER);
+
+    <span class="comment">// What if we want to add 10 more pets? 100? 1000? 😰</span>
+    <span class="comment">// Should we create variables for each one?</span>
+}</pre>
+
+    <div class="warning">
+      <strong>The Problem:</strong>
+      <ul>
+        <li>We need a separate variable for each pet</li>
+        <li>Want to loop through all pets? Not easy! 😓</li>
+        <li>Need to find a specific pet? Have to check each variable...</li>
+        <li>Want to add/remove pets dynamically? Impossible!</li>
+      </ul>
+    </div>
+
+    <h2>Enter ArrayList: Your New Best Friend! 📦</h2>
+
+    <p>Java provides a wonderful solution called ArrayList. Think of it as a magical box that can:</p>
+    <ul>
+      <li>Hold as many pets as you want 📦</li>
+      <li>Grow or shrink as needed 🪄</li>
+      <li>Let you easily add and remove pets 🐾</li>
+      <li>Help you find specific pets quickly 🔍</li>
+    </ul>
+
+    <h2>Let's Create Our First ArrayList!</h2>
+
+    <p>Create a new package called <code>week3</code> and add this to your new Main class:</p>
+
+    <pre><span class="keyword">import</span> java.util.ArrayList;
+
+<span class="keyword">public class</span> Main {
+    <span class="keyword">public static void</span> main(String[] args) {
+        <span class="comment">// Create an ArrayList to store pets</span>
+        ArrayList&lt;Pet&gt; pets = <span class="keyword">new</span> ArrayList&lt;&gt;();
+
+        <span class="comment">// Add some pets</span>
+        pets.add(<span class="keyword">new</span> Dog(<span class="string">"Buddy"</span>, <span class="number">3</span>));
+        pets.add(<span class="keyword">new</span> Cat(<span class="string">"Whiskers"</span>, <span class="number">5</span>));
+        pets.add(<span class="keyword">new</span> Fish(<span class="string">"Nemo"</span>, <span class="number">1</span>, WaterType.SALTWATER));
+
+        <span class="comment">// Print how many pets we have</span>
+        System.out.println(<span class="string">"Total pets: "</span> + pets.size());
+    }
+}</pre>
+
+    <div class="tip">
+      <strong>What's with the &lt;Pet&gt;?</strong>
+      This tells Java that our ArrayList will only store Pet objects (and their subclasses like Dog, Cat, and Fish).
+      It's called a "generic type parameter" - we'll learn more about these later! 🎓
+    </div>
+
+    <h2>Basic ArrayList Operations</h2>
+
+    <p>Let's learn some essential ArrayList methods:</p>
+
+    <pre><span class="comment">// Adding pets</span>
+pets.add(<span class="keyword">new</span> Dog(<span class="string">"Max"</span>, <span class="number">2</span>));        <span class="comment">// Adds at the end</span>
+pets.add(<span class="number">0</span>, <span class="keyword">new</span> Cat(<span class="string">"Luna"</span>, <span class="number">1</span>));   <span class="comment">// Adds at index 0</span>
+
+<span class="comment">// Removing pets</span>
+pets.remove(<span class="number">0</span>);                     <span class="comment">// Removes pet at index 0</span>
+pets.remove(buddy);                  <span class="comment">// Removes specific pet object</span>
+
+<span class="comment">// Getting pets</span>
+Pet firstPet = pets.get(<span class="number">0</span>);        <span class="comment">// Gets pet at index 0</span>
+<span class="keyword">int</span> totalPets = pets.size();      <span class="comment">// Gets total number of pets</span>
+
+<span class="comment">// Checking for pets</span>
+<span class="keyword">boolean</span> hasPet = pets.contains(buddy);  <span class="comment">// Checks if pet is in list</span>
+<span class="keyword">boolean</span> isEmpty = pets.isEmpty();       <span class="comment">// Checks if list is empty</span></pre>
+
+    <h2>Your First Challenge - Pet Inventory! 💪</h2>
+
+    <p>Let's create a method that displays all our pets nicely:</p>
+
+    <pre><span class="keyword">public static void</span> displayPets(ArrayList&lt;Pet&gt; pets) {
+    System.out.println(<span class="string">"🏪 Pet Shop Inventory 🏪"</span>);
+    <span class="comment">// TODO: Loop through pets and display each one</span>
+    <span class="comment">// Hint: Use a for-each loop!</span>
+}</pre>
+
+    <p>Make it show output like this:</p>
+
+    <pre>
+🏪 Pet Shop Inventory 🏪
+1. Buddy (Dog) - 3 years old
+2. Whiskers (Cat) - 5 years old
+3. Nemo (Fish) - 1 year old
+Total Pets: 3</pre
+    >
+
+    <div class="warning">
+      <strong>Think About:</strong> How can you get each pet's actual type (Dog, Cat, Fish) to display? Remember
+      <code>getClass().getSimpleName()</code> from last week! 🤔
+    </div>
+
+    <h2>Different Ways to Loop Through Pets 🔄</h2>
+
+    <p>Java gives us several ways to loop through an ArrayList. Let's explore them!</p>
+
+    <h3>1. The For-Each Loop (Recommended! 👍)</h3>
+    <pre><span class="comment">// Simple and clean - great for most cases</span>
+<span class="keyword">for</span> (Pet pet : pets) {
+    System.out.println(pet.getName() + <span class="string">" says "</span> + pet.makeSound());
+}</pre>
+
+    <h3>2. Traditional For Loop</h3>
+    <pre><span class="comment">// Good when you need the index number</span>
+<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < pets.size(); i++) {
+    Pet pet = pets.get(i);
+    System.out.println((i + <span class="number">1</span>) + <span class="string">". "</span> + pet.getName());
+}</pre>
+
+    <h3>3. Iterator (Advanced Usage)</h3>
+    <pre><span class="keyword">import</span> java.util.Iterator;
+
+<span class="comment">// Useful when you need to remove items while looping</span>
+Iterator&lt;Pet&gt; iterator = pets.iterator();
+<span class="keyword">while</span> (iterator.hasNext()) {
+    Pet pet = iterator.next();
+    <span class="keyword">if</span> (pet.getAge() > <span class="number">10</span>) {
+        iterator.remove();  <span class="comment">// Safely remove old pets</span>
+    }
+}</pre>
+
+    <div class="warning">
+      <strong>Warning:</strong> Never remove items from an ArrayList while using a for-each loop! It will cause errors.
+      Use an Iterator instead! 🚫
+    </div>
+
+    <h2>Common ArrayList Operations 🛠️</h2>
+
+    <p>Let's create some useful methods for our pet shop:</p>
+
+    <pre><span class="keyword">public static</span> ArrayList&lt;Pet&gt; findPetsByType(ArrayList&lt;Pet&gt; pets, 
+                                          Class&lt;?&gt; type) {
+    ArrayList&lt;Pet&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();
+    
+    <span class="keyword">for</span> (Pet pet : pets) {
+        <span class="keyword">if</span> (type.isInstance(pet)) {  <span class="comment">// Check if pet is of given type</span>
+            result.add(pet);
+        }
+    }
+    
+    <span class="keyword">return</span> result;
+}
+
+<span class="keyword">public static void</span> adoptPet(ArrayList&lt;Pet&gt; pets, String name) {
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < pets.size(); i++) {
+        <span class="keyword">if</span> (pets.get(i).getName().equals(name)) {
+            pets.remove(i);
+            System.out.println(<span class="string">"🎉 "</span> + name + <span class="string">" has been adopted!"</span>);
+            <span class="keyword">return</span>;
+        }
+    }
+    System.out.println(<span class="string">"😕 Sorry, couldn't find a pet named "</span> + name);
+}</pre>
+
+    <div class="tip">
+      <strong>Pro Tip:</strong> Notice how findPetsByType returns a new ArrayList? This is a common pattern - create a
+      new list for filtered results! 📝
+    </div>
+
+    <h2>Let's Use These Methods! 🎯</h2>
+
+    <pre><span class="comment">// Find all dogs in our shop</span>
+ArrayList&lt;Pet&gt; dogs = findPetsByType(pets, Dog.<span class="keyword">class</span>);
+System.out.println(<span class="string">"We have "</span> + dogs.size() + <span class="string">" dogs!"</span>);
+
+<span class="comment">// Adopt a pet</span>
+adoptPet(pets, <span class="string">"Buddy"</span>);  <span class="comment">// Bye Buddy! 👋</span>
+
+<span class="comment">// Check our updated inventory</span>
+displayPets(pets);</pre>
+
+    <h2>Practice Challenge: Enhanced Pet Operations! 💪</h2>
+
+    <p>Create these methods to manage our pet shop:</p>
+
+    <pre><span class="keyword">public static</span> Pet findOldestPet(ArrayList&lt;Pet&gt; pets) {
+    <span class="comment">// TODO: Return the pet with the highest age
+    // What should we return if the list is empty? 🤔</span>
+}
+
+<span class="keyword">public static</span> ArrayList&lt;Pet&gt; findPetsByAge(ArrayList&lt;Pet&gt; pets, 
+                                         <span class="keyword">int</span> maxAge) {
+    <span class="comment">// TODO: Return all pets younger than or equal to maxAge</span>
+}
+
+<span class="keyword">public static double</span> calculateAverageAge(ArrayList&lt;Pet&gt; pets) {
+    <span class="comment">// TODO: Calculate the average age of all pets
+    // Remember to handle empty list case!</span>
+}</pre>
+
+    <div class="tip">
+      <strong>Testing Tip:</strong> Test your methods with:
+      <ul>
+        <li>Empty lists</li>
+        <li>Lists with one pet</li>
+        <li>Lists with multiple pets</li>
+        <li>Edge cases (age 0, very old pets, etc.)</li>
+      </ul>
+    </div>
+
+    <h2>Different Ways to Loop Through Pets 🔄</h2>
+
+    <p>Java gives us several ways to loop through an ArrayList. Let's explore them!</p>
+
+    <h3>1. The For-Each Loop (Recommended! 👍)</h3>
+    <pre><span class="comment">// Simple and clean - great for most cases</span>
+<span class="keyword">for</span> (Pet pet : pets) {
+    System.out.println(pet.getName() + <span class="string">" says "</span> + pet.makeSound());
+}</pre>
+
+    <h3>2. Traditional For Loop</h3>
+    <pre><span class="comment">// Good when you need the index number</span>
+<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < pets.size(); i++) {
+    Pet pet = pets.get(i);
+    System.out.println((i + <span class="number">1</span>) + <span class="string">". "</span> + pet.getName());
+}</pre>
+
+    <h3>3. Iterator (Advanced Usage)</h3>
+    <pre><span class="keyword">import</span> java.util.Iterator;
+
+<span class="comment">// Useful when you need to remove items while looping</span>
+Iterator&lt;Pet&gt; iterator = pets.iterator();
+<span class="keyword">while</span> (iterator.hasNext()) {
+    Pet pet = iterator.next();
+    <span class="keyword">if</span> (pet.getAge() > <span class="number">10</span>) {
+        iterator.remove();  <span class="comment">// Safely remove old pets</span>
+    }
+}</pre>
+
+    <div class="warning">
+      <strong>Warning:</strong> Never remove items from an ArrayList while using a for-each loop! It will cause errors.
+      Use an Iterator instead! 🚫
+    </div>
+
+    <h2>Common ArrayList Operations 🛠️</h2>
+
+    <p>Let's create some useful methods for our pet shop:</p>
+
+    <pre><span class="keyword">public static</span> ArrayList&lt;Pet&gt; findPetsByType(ArrayList&lt;Pet&gt; pets, 
+                                          Class&lt;?&gt; type) {
+    ArrayList&lt;Pet&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();
+    
+    <span class="keyword">for</span> (Pet pet : pets) {
+        <span class="keyword">if</span> (type.isInstance(pet)) {  <span class="comment">// Check if pet is of given type</span>
+            result.add(pet);
+        }
+    }
+    
+    <span class="keyword">return</span> result;
+}
+
+<span class="keyword">public static void</span> adoptPet(ArrayList&lt;Pet&gt; pets, String name) {
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < pets.size(); i++) {
+        <span class="keyword">if</span> (pets.get(i).getName().equals(name)) {
+            pets.remove(i);
+            System.out.println(<span class="string">"🎉 "</span> + name + <span class="string">" has been adopted!"</span>);
+            <span class="keyword">return</span>;
+        }
+    }
+    System.out.println(<span class="string">"😕 Sorry, couldn't find a pet named "</span> + name);
+}</pre>
+
+    <div class="tip">
+      <strong>Pro Tip:</strong> Notice how findPetsByType returns a new ArrayList? This is a common pattern - create a
+      new list for filtered results! 📝
+    </div>
+
+    <h2>Let's Use These Methods! 🎯</h2>
+
+    <pre><span class="comment">// Find all dogs in our shop</span>
+ArrayList&lt;Pet&gt; dogs = findPetsByType(pets, Dog.<span class="keyword">class</span>);
+System.out.println(<span class="string">"We have "</span> + dogs.size() + <span class="string">" dogs!"</span>);
+
+<span class="comment">// Adopt a pet</span>
+adoptPet(pets, <span class="string">"Buddy"</span>);  <span class="comment">// Bye Buddy! 👋</span>
+
+<span class="comment">// Check our updated inventory</span>
+displayPets(pets);</pre>
+
+    <h2>Practice Challenge: Enhanced Pet Operations! 💪</h2>
+
+    <p>Create these methods to manage our pet shop:</p>
+
+    <pre><span class="keyword">public static</span> Pet findOldestPet(ArrayList&lt;Pet&gt; pets) {
+    <span class="comment">// TODO: Return the pet with the highest age
+    // What should we return if the list is empty? 🤔</span>
+}
+
+<span class="keyword">public static</span> ArrayList&lt;Pet&gt; findPetsByAge(ArrayList&lt;Pet&gt; pets, 
+                                         <span class="keyword">int</span> maxAge) {
+    <span class="comment">// TODO: Return all pets younger than or equal to maxAge</span>
+}
+
+<span class="keyword">public static double</span> calculateAverageAge(ArrayList&lt;Pet&gt; pets) {
+    <span class="comment">// TODO: Calculate the average age of all pets
+    // Remember to handle empty list case!</span>
+}</pre>
+
+    <div class="tip">
+      <strong>Testing Tip:</strong> Test your methods with:
+      <ul>
+        <li>Empty lists</li>
+        <li>Lists with one pet</li>
+        <li>Lists with multiple pets</li>
+        <li>Edge cases (age 0, very old pets, etc.)</li>
+      </ul>
+    </div>
+
+    <h2>Introducing LinkedList: Another Way to Store Pets! 🔄</h2>
+
+    <p>
+      ArrayList is great, but Java gives us another option called LinkedList. Let's see when we might want to use it!
+    </p>
+
+    <pre><span class="keyword">import</span> java.util.LinkedList;
+
+<span class="keyword">public static void</span> main(String[] args) {
+    LinkedList&lt;Pet&gt; waitingList = <span class="keyword">new</span> LinkedList&lt;&gt;();
+    
+    <span class="comment">// Add pets to waiting list</span>
+    waitingList.addFirst(<span class="keyword">new</span> Dog(<span class="string">"Max"</span>, <span class="number">2</span>));      <span class="comment">// Adds at start</span>
+    waitingList.addLast(<span class="keyword">new</span> Cat(<span class="string">"Luna"</span>, <span class="number">1</span>));      <span class="comment">// Adds at end</span>
+    
+    <span class="comment">// Remove from either end</span>
+    Pet nextPet = waitingList.removeFirst();  <span class="comment">// Get next in line</span>
+    Pet lastPet = waitingList.removeLast();   <span class="comment">// Remove from end</span>
+}</pre>
+
+    <div class="tip">
+      <strong>Key Differences:</strong>
+      <ul>
+        <li>ArrayList = like a parking lot (numbered spots) 🅿️</li>
+        <li>LinkedList = like a chain of pets holding hands 🤝</li>
+        <li>ArrayList is better for random access (get(5))</li>
+        <li>LinkedList is better for adding/removing at start/end</li>
+      </ul>
+    </div>
+
+    <h2>Real-World Scenario: Pet Shop Waiting List 🎫</h2>
+
+    <p>Let's create a waiting list system for our pet shop!</p>
+
+    <pre><span class="keyword">public class</span> PetWaitingList {
+    <span class="keyword">private</span> LinkedList&lt;Pet&gt; waitingList = <span class="keyword">new</span> LinkedList&lt;&gt;();
+    
+    <span class="keyword">public void</span> addToWaitingList(Pet pet) {
+        waitingList.addLast(pet);
+        System.out.println(pet.getName() + 
+            <span class="string">" added to position "</span> + waitingList.size());
+    }
+    
+    <span class="keyword">public</span> Pet getNextPet() {
+        <span class="keyword">if</span> (waitingList.isEmpty()) {
+            System.out.println(<span class="string">"No pets in waiting list!"</span>);
+            <span class="keyword">return null</span>;
+        }
+        <span class="keyword">return</span> waitingList.removeFirst();
+    }
+    
+    <span class="keyword">public void</span> displayWaitingList() {
+        <span class="keyword">if</span> (waitingList.isEmpty()) {
+            System.out.println(<span class="string">"Waiting list is empty!"</span>);
+            <span class="keyword">return</span>;
+        }
+        
+        System.out.println(<span class="string">"🎫 Current Waiting List 🎫"</span>);
+        <span class="keyword">int</span> position = <span class="number">1</span>;
+        <span class="keyword">for</span> (Pet pet : waitingList) {
+            System.out.println(position++ + <span class="string">". "</span> + 
+                pet.getName() + <span class="string">" ("</span> + 
+                pet.getClass().getSimpleName() + <span class="string">")"</span>);
+        }
+    }
+}</pre>
+
+    <h2>When to Use ArrayList vs LinkedList 🤔</h2>
+
+    <table style="width: 100%; border-collapse: collapse; margin: 1rem 0">
+      <tr style="background: #f8f9fa">
+        <th style="padding: 0.5rem; border: 1px solid #dee2e6">Operation</th>
+        <th style="padding: 0.5rem; border: 1px solid #dee2e6">ArrayList</th>
+        <th style="padding: 0.5rem; border: 1px solid #dee2e6">LinkedList</th>
+      </tr>
+      <tr>
+        <td style="padding: 0.5rem; border: 1px solid #dee2e6">Access by index</td>
+        <td style="padding: 0.5rem; border: 1px solid #dee2e6">Fast ⚡</td>
+        <td style="padding: 0.5rem; border: 1px solid #dee2e6">Slow 🐌</td>
+      </tr>
+      <tr>
+        <td style="padding: 0.5rem; border: 1px solid #dee2e6">Add/remove at start</td>
+        <td style="padding: 0.5rem; border: 1px solid #dee2e6">Slow 🐌</td>
+        <td style="padding: 0.5rem; border: 1px solid #dee2e6">Fast ⚡</td>
+      </tr>
+      <tr>
+        <td style="padding: 0.5rem; border: 1px solid #dee2e6">Add/remove at end</td>
+        <td style="padding: 0.5rem; border: 1px solid #dee2e6">Fast ⚡</td>
+        <td style="padding: 0.5rem; border: 1px solid #dee2e6">Fast ⚡</td>
+      </tr>
+      <tr>
+        <td style="padding: 0.5rem; border: 1px solid #dee2e6">Memory usage</td>
+        <td style="padding: 0.5rem; border: 1px solid #dee2e6">Less 🎯</td>
+        <td style="padding: 0.5rem; border: 1px solid #dee2e6">More 📦</td>
+      </tr>
+    </table>
+
+    <h2>Final Challenge: Complete Pet Management System! 🏆</h2>
+
+    <p>Create a complete pet management system that uses both ArrayList and LinkedList:</p>
+
+    <pre><span class="keyword">public class</span> PetShopManager {
+    <span class="keyword">private</span> ArrayList&lt;Pet&gt; availablePets;      <span class="comment">// Pets in shop</span>
+    <span class="keyword">private</span> LinkedList&lt;Pet&gt; adoptionWaitList;  <span class="comment">// Waiting to be adopted</span>
+    <span class="keyword">private</span> LinkedList&lt;String&gt; customerQueue;   <span class="comment">// Customer names in line</span>
+
+    <span class="comment">// TODO: Implement these methods!</span>
+    <span class="keyword">public void</span> addNewPet(Pet pet) { }
+    <span class="keyword">public void</span> addCustomerToQueue(String name) { }
+    <span class="keyword">public void</span> processNextAdoption() { }
+    <span class="keyword">public void</span> displayShopStatus() { }
+}</pre>
+
+    <div class="warning">
+      <strong>Requirements:</strong>
+      <ul>
+        <li>When a customer reaches the front of the queue, they adopt the next pet in the adoption wait list</li>
+        <li>If there are no pets available, add the customer to a waiting list</li>
+        <li>
+          Display should show:
+          <ul>
+            <li>Available pets in shop</li>
+            <li>Pets waiting to be adopted</li>
+            <li>Customers in queue</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <h2>What We've Learned 🎓</h2>
+    <ul>
+      <li>How to use ArrayList for our main pet inventory</li>
+      <li>Different ways to loop through collections</li>
+      <li>When and how to use LinkedList</li>
+      <li>Real-world applications of different collection types</li>
+    </ul>
+
+    <p>
+      Next time, we'll explore more collection types like HashMap and TreeSet to organize our pets in even more
+      interesting ways! 🚀
+    </p>
+  </body>
+</html>
